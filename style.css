@@ -4,6 +4,7 @@
 	margin: 0;
 	box-sizing: border-box;
 }
+
 html {
 	font-size: 10px;
 	font-family: 'Montserrat', sans-serif;
@@ -16,6 +17,7 @@ a {
 	min-height: 100vh;
 	width: 100%;
 	display: flex;
+	justify-content: flex-start;
 	align-items: center;
 	justify-content: center;
 }
@@ -146,8 +148,6 @@ p {
 	height: 60px;
 	width: 60px;
 	display: inline-block;
-	border: 3px solid white;
-	border-radius: 50%;
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -162,8 +162,6 @@ p {
 	content: '';
 	height: 100%;
 	width: 100%;
-	border-radius: 50%;
-	border: 3px solid white;
 	animation: hamburger_puls 1s ease infinite;
 }
 #header .hamburger .bar {
@@ -536,16 +534,7 @@ p {
 /* End Footer */
 
 /* Keyframes */
-@keyframes hamburger_puls {
-	0% {
-		opacity: 1;
-		transform: scale(1);
-	}
-	100% {
-		opacity: 0;
-		transform: scale(1.4);
-	}
-}
+
 @keyframes text_reveal_box {
 	50% {
 		width: 100%;
@@ -702,6 +691,8 @@ p {
 		flex-basis: 22%;
 		margin: 1.5%;
 	}
+	#sibling{
+	  outline: dashed#72769C;
+	}
 }
 
-/* End  Media Query For Desktop */
