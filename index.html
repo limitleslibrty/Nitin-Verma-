@@ -25,9 +25,10 @@
           </div>
           <ul>
             <li><a href="#hero" data-after="Home">Home</a></li>
-            <li><a href="#services" data-after="Service">Services</a></li>
-            <li><a href="#project" data-after="Projects">Projects</a></li>
             <li><a href="#about" data-after="About">About</a></li>
+            <li><a href="#visits">My Visits</a></li>
+
+            <li><a href="#project" data-after="Projects">Projects</a></li>
             <li><a href="#contact" data-after="Contact">Contact</a></li>
           </ul>
         </div>
@@ -83,6 +84,104 @@
   
 
 
+  <!--my visits-->
+  
+  <br /><br />
+  
+    <h2 class="section-title" id="visits">MY VISITS</h2>
+    <br /><br /><br />
+  
+
+ <div class="card1-slider">
+
+
+    
+    <div class="card1" style="padding: 0px;">
+
+
+      
+
+      <div style="
+      height: 250px;
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 290px;
+      border-radius: 20px;
+      
+      ">
+        
+      <img src="holy.jpg" style="
+      height:100%;
+      width: 100%;
+      border-radius: 20px"/>
+      </div>
+      
+      <br />
+       
+     <h3 style="
+      margin-left: 15px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      ">
+        Kedarnath
+      </h3>
+    
+      <p style="
+      margin-left: 15px">lovely place ,the way nature touches ,<br /> soo pretty</p>
+      
+      
+    </div>
+    
+
+
+    <div class="card1" style="padding: 0px;">
+
+
+      
+
+      <div style="
+      height: 250px;
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 290px;
+      border-radius: 20px;
+      
+      ">
+        
+      <img src="bengaluru.jpg" style="
+      height:100%;
+      width: 100%;
+      border-radius: 20px"/>
+      </div>
+      
+      <br />
+       
+     <h3 style="
+      margin-left: 15px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      ">
+        Bengaluru
+      </h3>
+    
+      <p style="
+      margin-left: 15px">spend most of the time here ,<br /> never felt alone</p>
+      
+      
+    </div>
+
+    
+  
+  </div>
+  
+
+
+
+
+<br /><br />
+<br /><br />
 
   <!--project-->
 
@@ -315,10 +414,74 @@
    outline:solid #355674;
    outline-width: 2px;
    box-shadow:1px 2px 8px 3px#FDFDFD69;
-   
-   
-   
+
      }
+     
+     
+
+    
+      
+       
+   .card1-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      padding: 20px;
+      white-space: nowrap;
+    }
+    
+    .card1 {
+      flex: 0 0 auto;
+      margin: auto;
+      width: 300px;
+      height: 400px;
+      background: rgba(255, 255, 255, 1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      text-align: left;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(61, 118, 221, 0.7);
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .card1:hover {
+      transform: scale(1.05);
+    }
+    
+    
+    .card1 h3 {
+      margin-top: 1px;
+      font-size: 20px;
+      font-weight: bold;
+      color: rgba(88, 88, 88, 1);
+    }
+    
+    .card1 p {
+      font-size: 14px;
+      color: white#717171;
+      opacity: 0.8;
+    }
+    
+    .card1 button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: white;
+      color: black;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    
+    .card1-slider::-webkit-scrollbar {
+      display: none;
+    }
+       
+       
+       
+     
    }
     
     
