@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #e0e7ff, #f0f4ff);
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+            margin: 20px auto;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: inset 6px 6px 12px rgba(255, 255, 255, 0.5), inset -6px -6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        #player-names {
+            display: none;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .player {
+            margin: 0 20px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            transition: box-shadow 0.3s, font-size 0.3s;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .highlight {
+            box-shadow: 0 0 15px #007bff, 0 0 30px #007bff;
+            transform: scale(1.1);
+        }
+        #start {
+            display: block;
+            margin-bottom: 20px;
+        }
+        #nameInput {
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 1.2em;
+            width: 220px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.7);
+            transition: background 0.3s, transform 0.3s;
+        }
+        #nameInput:focus {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+        #start button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(145deg, #e6f7ff, #b3e0ff);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.9);
+            transition: background 0.3s, transform 0.3s;
+        }
+        #start button:hover {
+            background: linear-gradient(145deg, #b3e0ff, #e6f7ff);
+            transform: scale(1.05);
+        }
+        .symbol-x {
+            color: #6f2c91; /* Purple color */
+            font-size: 3em; /* Adjusted size */
+            line-height: 1; /* Adjusted for fit */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .symbol-o {
+            color: #007bff; /* Blue color */
+            font-size: 3em; /* Adjusted size */
+            line-height: 1; /* Adjusted for fit */
+            border: 4px solid #007bff;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="player-names">
+            <span id="player1" class="player"></span>
+            <span>VS</span>
+            <span id="player2" class="player">Computer</span>
+        </div>
+        <div id="start">
+            <h2>Enter Your Name:</h2>
+            <input type="text" id="nameInput" placeholder="only first letter">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="board"></div>
+        <h2 id="status"></h2>
+    </div>
+
+    <script>
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let playerName = '';
+        let isKaran = false; // Flag to check if the player is Karan
+        const winningCombos = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function startGame() {
+            playerName = document.getElementById('nameInput').value || 'Player';
+            document.getElementById('player1').innerText = playerName;
+            document.getElementById('player2').innerText = 'Computer';
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('player-names').style.display = 'block';
+            
+            // Check if player is Karan
+            isKaran = playerName.toLowerCase() === 'karan';
+
+            resetBoard();
+            render();
+        }
+
+        function resetBoard() {
+            board.fill('');
+            currentPlayer = 'X';
+            document.getElementById('status').innerText = '';
+            createBoard();
+            highlightCurrentPlayer();
+        }
+
+        function createBoard() {
+            const boardElement = document.getElementById('board');
+            boardElement.innerHTML = '';
+            board.forEach((cell, index) => {
+                const cellDiv = document.createElement('div');
+                cellDiv.classList.add('cell');
+                cellDiv.innerHTML = cell === 'X' ? '<div class="symbol-x">X</div>' : 
+                (cell === 'O' ? '<div class="symbol-o"></div>' : '');
+                cellDiv.onclick = () => handleCellClick(index);
+                boardElement.appendChild(cellDiv);
+            });
+        }
+
+        function handleCellClick(index) {
+            if (board[index] === '' && currentPlayer === 'X') {
+                board[index] = currentPlayer;
+                if (!checkWinner()) {
+                    currentPlayer = 'O';
+                    setTimeout(aiMove, 1500);
+                }
+                render();
+            }
+        }
+
+        function aiMove() {
+            if (isKaran) {
+                // Karan is playing, make the computer play poorly (random move)
+                let emptyCells = [];
+                for (let i = 0; i < board.length; i++) {
+                    if (board[i] === '') {
+                        emptyCells.push(i);
+                    }
+                }
+                const randomMove = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                board[randomMove] = 'O';
+            } else {
+                // Normal AI move (optimal)
+                let bestScore = -Infinity;
+                let move;
+
+                for (let i = 0; i < board.length; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'O';
+                        let score = minimax(board, 0, false);
+                        board[i] = '';
+                        if (score > bestScore) {
+                            bestScore = score;
+                            move = i;
+                        }
+                    }
+                }
+                board[move] = 'O';
+            }
+            
+            currentPlayer = 'X';
+            render();
+            checkWinner();
+        }
+
+        function minimax(newBoard, depth, isMaximizing) {
+            const winner = checkWinner(true);
+            if (winner === 'O') return 1;
+            if (winner === 'X') return -1;
+            if (newBoard.every(cell => cell !== '')) return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < newBoard.length; i++) {
+                    if (newBoard[i] === '') {
+                        newBoard[i] = 'O';
+                        let score = minimax(newBoard, depth + 1, false);
+                        newBoard[i] = '';
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < newBoard.length; i++) {
+                    if (newBoard[i] === '') {
+                        newBoard[i] = 'X';
+                        let score = minimax(newBoard, depth + 1, true);
+                        newBoard[i] = '';
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        function checkWinner(returnWinner = false) {
+            for (const combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    if (returnWinner) return board[a];
+                    document.getElementById('status').innerText = `${board[a]} wins!`;
+                    highlightCurrentPlayer();
+                    setTimeout(resetBoard, 2000);
+                    return true;
+                }
+            }
+            if (board.every(cell => cell !== '')) {
+                if (returnWinner) return 'Tie';
+                document.getElementById('status').innerText = 'It\'s a tie!';
+                setTimeout(resetBoard, 2000);
+                return true;
+            }
+            return false;
+        }
+
+        function highlightCurrentPlayer() {
+            document.getElementById('player1').classList.remove('highlight');
+            document.getElementById('player2').classList.remove('highlight');
+            if (currentPlayer === 'X') {
+                document.getElementById('player1').classList.add('highlight');
+            } else {
+                document.getElementById('player2').classList.add('highlight');
+            }
+        }
+
+        function render() {
+            createBoard();
+            highlightCurrentPlayer();
+        }
+    </script>
+</body>
+</html>
